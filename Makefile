@@ -14,7 +14,8 @@ LD := $(PREFIX)gcc
 OBJCOPY := $(PREFIX)objcopy
 
 CFLAGS := -g -O2 -Wall -I$(INCLUDES) -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-LDFLAGS := -g -L$(DEVKITPRO)/libogc/lib/wii -lgrrlib -lpng -lz -logc -lm
+LDFLAGS := -g -L$(DEVKITPRO)/libogc/lib/wii -logc -lm
+
 
 # Dosya listeleri
 CFILES := $(foreach dir,$(SOURCES),$(wildcard $(dir)/*.c))
