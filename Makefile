@@ -1,24 +1,15 @@
 TARGET := Wii-PvP-Arena
-PREFIX := powerpc-eabi-
-CC := $(PREFIX)gcc
-
-# Wii yollarını manuel tanımlıyoruz
-DEVKITPRO := /opt/devkitpro
-LIBOGC := $(DEVKITPRO)/libogc
-
-CFLAGS := -g -O2 -Wall -I$(LIBOGC)/include -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-LDFLAGS := -L$(LIBOGC)/lib/wii -logc -lm
-
-CFILES := src/main.c
-OFILES := $(CFILES:.c=.o)
+CC := powerpc-eabi-gcc
+CFLAGS := -g -O2 -Wall -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+LDFLAGS := -logc -lm
 
 all: $(TARGET).dol
 
 $(TARGET).dol: $(TARGET).elf
-	$(PREFIX)objcopy -O binary $< $@
+	powerpc-eabi-objcopy -O binary $< $@
 
-$(TARGET).elf: $(OFILES)
-	$(CC) $(OFILES) $(LDFLAGS) -o $@
+$(TARGET).elf: src/main.o
+	$(CC) src/main.o $(LDFLAGS) -o $@
 
 clean:
-	rm -f $(OFILES) $(TARGET).elf $(TARGET).dol
+	rm -f src/main.o $(TARGET).elf $(TARGET).dol
