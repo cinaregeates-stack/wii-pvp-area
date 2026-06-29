@@ -11,6 +11,10 @@ jobs:
 
       - name: Build
         run: |
+          # Derleyiciyi PATH'e ekle
+          export DEVKITPRO=/opt/devkitpro
+          export DEVKITPPC=/opt/devkitpro/devkitPPC
+          export PATH=$PATH:$DEVKITPPC/bin
+          # Derleme yap
           make
-    
-      
+          
