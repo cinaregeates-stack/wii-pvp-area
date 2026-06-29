@@ -1,35 +1,13 @@
-# Proje ismi
-TARGET := Wii-PvP-Arena
-BUILD := build
-SOURCES := src
-INCLUDES := include
+#include <gccore.h>
+#include <wiiuse/wpad.h>
+#include <stdlib.h>
 
-# devkitPro yolları
-export PATH := $(DEVKITPPC)/bin:$(PATH)
-
-# Derleme kuralları
-PREFIX := powerpc-eabi-
-CC := $(PREFIX)gcc
-LD := $(PREFIX)gcc
-OBJCOPY := $(PREFIX)objcopy
-
-CFLAGS := -g -O2 -Wall -I$(INCLUDES) -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-LDFLAGS := -g -L$(DEVKITPRO)/libogc/lib/wii -lgrrlib -lpng -lz -logc -lm
-
-# Dosya listeleri
-CFILES := $(foreach dir,$(SOURCES),$(wildcard $(dir)/*.c))
-OFILES := $(CFILES:.c=.o)
-
-.PHONY: all clean
-
-all: $(TARGET).dol
-
-$(TARGET).dol: $(TARGET).elf
-	$(OBJCOPY) -O binary $< $@
-
-$(TARGET).elf: $(OFILES)
-	$(LD) $(OFILES) $(LDFLAGS) -o $@
-
-clean:
-	rm -f $(OFILES) $(TARGET).elf $(TARGET).dol
-	
+int main() {
+    VIDEO_Init();
+    WPAD_Init();
+    while(1) {
+        WPAD_ScanPads();
+        if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+    }
+    return 0;
+}
