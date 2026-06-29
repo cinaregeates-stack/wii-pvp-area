@@ -2,7 +2,6 @@
 TARGET := Wii-PvP-Arena
 BUILD := build
 SOURCES := src
-DATA := data
 INCLUDES := include
 
 # devkitPro yolları
@@ -33,3 +32,4 @@ $(TARGET).elf: $(OFILES)
 
 clean:
 	rm -f $(OFILES) $(TARGET).elf $(TARGET).dol
+	
