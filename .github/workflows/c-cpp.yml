@@ -12,4 +12,5 @@ jobs:
       - name: Build
         run: |
           make
-          
+       LDFLAGS := -g -L$(DEVKITPRO)/libogc/lib/wii -logc -lm
+       
