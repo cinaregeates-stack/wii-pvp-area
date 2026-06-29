@@ -1,18 +1,14 @@
-# Proje ismi
 TARGET := Wii-PvP-Arena
-
-# Wii araçları
 PREFIX := powerpc-eabi-
 CC := $(PREFIX)gcc
 
-# Wii yolları (devkitPro değişkenleri)
-INCLUDE := -I$(LIBOGC_INC)
-LIB := -L$(LIBOGC_LIB)
+# Wii yollarını manuel tanımlıyoruz
+DEVKITPRO := /opt/devkitpro
+LIBOGC := $(DEVKITPRO)/libogc
 
-CFLAGS := -g -O2 -Wall $(INCLUDE) -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-LDFLAGS := $(LIB) -logc -lm
+CFLAGS := -g -O2 -Wall -I$(LIBOGC)/include -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+LDFLAGS := -L$(LIBOGC)/lib/wii -logc -lm
 
-# Dosyalar
 CFILES := src/main.c
 OFILES := $(CFILES:.c=.o)
 
