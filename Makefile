@@ -1,35 +1,28 @@
 # Proje ismi
 TARGET := Wii-PvP-Arena
-BUILD := build
-SOURCES := src
-INCLUDES := include
 
-# devkitPro yolları
-export PATH := $(DEVKITPPC)/bin:$(PATH)
-
-# Derleme kuralları
+# Wii araçları
 PREFIX := powerpc-eabi-
 CC := $(PREFIX)gcc
-LD := $(PREFIX)gcc
-OBJCOPY := $(PREFIX)objcopy
 
-CFLAGS := -g -O2 -Wall -I$(INCLUDES) -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-LDFLAGS := -g -L$(DEVKITPRO)/libogc/lib/wii -logc -lm
+# Wii yolları (devkitPro değişkenleri)
+INCLUDE := -I$(LIBOGC_INC)
+LIB := -L$(LIBOGC_LIB)
 
+CFLAGS := -g -O2 -Wall $(INCLUDE) -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+LDFLAGS := $(LIB) -logc -lm
 
-# Dosya listeleri
-CFILES := $(foreach dir,$(SOURCES),$(wildcard $(dir)/*.c))
+# Dosyalar
+CFILES := src/main.c
 OFILES := $(CFILES:.c=.o)
-
-.PHONY: all clean
 
 all: $(TARGET).dol
 
 $(TARGET).dol: $(TARGET).elf
-	$(OBJCOPY) -O binary $< $@
+	$(PREFIX)objcopy -O binary $< $@
 
 $(TARGET).elf: $(OFILES)
-	$(LD) $(OFILES) $(LDFLAGS) -o $@
+	$(CC) $(OFILES) $(LDFLAGS) -o $@
 
 clean:
 	rm -f $(OFILES) $(TARGET).elf $(TARGET).dol
